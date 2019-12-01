@@ -24,6 +24,7 @@ RUN buildDeps=" \
         libcurl4-gnutls-dev \
         pkg-config \
         libssl-dev \
+        gnupg \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 calendar iconv intl mbstring mysqli opcache pdo_mysql soap zip \
@@ -47,6 +48,11 @@ RUN pecl install xdebug \
     && echo "xdebug.scream = 0" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.show_local_vars = 1" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.idekey = PHPSTORM" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+RUN apt update \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt install -y nodejs \
+    && npm install --global cross-env
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
