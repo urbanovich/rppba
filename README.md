@@ -10,4 +10,9 @@ Copmoser - менеджер зависимостей PHP
 Структура и жизненный цикл фрэймворка
 Удаление public из url проекта
 
-```composer create-project --prefer-dist laravel/laravel rppba```
+```shell script
+docker-compose -f docker/docker-compose.yml up -d;
+docker exec -it rppba-php7.2-fpm bash
+cd rppba;
+composer install;
+```
