@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+    rppba-nginx:
+      image: nginx:latest
+      restart: always
+      container_name: rppba-nginx
+      ports:
+        - "8080:80"
+        - "443:443"
+      volumes:
+        - ../:/var/www/html/:delegated
+        - ./nginx/conf.d:/etc/nginx/conf.d
+      links:
+        - rppba-php7.2-fpm
+
+    rppba-php7.2-fpm:
+      build: ./php-fpm/7.2.7/
+      container_name: rppba-php7.2-fpm
+      restart: always
+      volumes:
+        - ../:/var/www/html/:delegated
+        - ./php-fpm/php-fpm.d/php.conf:/usr/local/etc/php-fpm.d/php.conf
+      links:
+        - rppba-db
+#        - rppba-elasticsearch
+#        - rppba-redis
+#        - rppba-memcached
+
+    rppba-db:
+      image: mysql:5.7
+      restart: always
+      container_name: rppba-db
+      environment:
+        MYSQL_ROOT_PASSWORD: 123456
+        MYSQL_USER: root
+        MYSQL_PASSWORD: 123456
+      volumes:
+        - ./databases:/var/lib/mysql
+
+    rppba-phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      restart: always
+      container_name: rppba-phpmyadmin
+      ports:
+        - "8888:80"
+      environment:
+        PMA_VERBOSE: rppba-db
+        PMA_HOST: rppba-db
+        MYSQL_ROOT_PASSWORD: 123456
+        MYSQL_USER: root
+        MYSQL_PASSWORD: 123456
+      links:
+        - rppba-db
+
+#    rppba-elasticsearch:
+#        image: elasticsearch:5
+#        container_name: rppba-elasticsearch
+#        restart: always
+#        environment:
+#          - cluster.name=docker-cluster
+#          - bootstrap.memory_lock=true
+#          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#        volumes:
+#          - ./elasticsearch/data:/usr/share/elasticsearch/data
+#        ports:
+#          - "9200:9200"
+#
+#    rppba-redis:
+#        image: redis
+#        command: ["redis-server", "--appendonly", "yes"]
+#        restart: always
+#        container_name: rppba-redis
+#        ports:
+#          - "6379:6379"
+#        volumes:
+#          - ./redis/data:/data
+#
+#    rppba-memcached:
+#        image: memcached
+#        restart: always
+#        container_name: rppba-memcached
+#        ports:
+#          - "11211:11211"
+
+#    proxy-nginx:
+#      image: nginx:latest
+#      restart: always
+#      container_name: proxy-nginx
+#      ports:
+#        - "80:80"
+#        - "443:443"
+#      volumes:
+#        - ./proxy/conf.d:/etc/nginx/conf.d
+#        - ./ssl/:/etc/ssl/
