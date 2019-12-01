@@ -1,0 +1,2 @@
+
+@extends('themes.frontend.layout')
