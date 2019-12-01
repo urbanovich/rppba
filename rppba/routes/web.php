@@ -12,4 +12,5 @@
 */
 
 Route::get('/', 'SiteController@home');
+Route::get('/login', 'AccountController@login');
 
