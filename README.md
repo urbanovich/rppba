@@ -21,5 +21,5 @@ npm i;
 npm run development
 ```
 
-go to http://localhost:8080/ for frontend
+go to http://localhost:8080/ for frontend  
 go to http://localhost:8080/admin for backend
