@@ -14,11 +14,12 @@ HMVC
 
 ```shell script
 docker-compose -f docker/docker-compose.yml up -d;
-docker exec -it rppba-php7.2-fpm bash
-cd rppba;
+docker exec -it rppba-php7.0-fpm bash
+cd la1;
 composer install;
 npm i;
 npm run development
 ```
 
-go to http://localhost:8080/
+go to http://localhost:8080/ for frontend
+go to http://localhost:8080/admin for backend
