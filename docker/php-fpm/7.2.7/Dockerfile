@@ -25,6 +25,7 @@ RUN buildDeps=" \
         pkg-config \
         libssl-dev \
         gnupg \
+        libmcrypt-dev \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 calendar iconv intl mbstring mysqli opcache pdo_mysql soap zip \
@@ -33,8 +34,8 @@ RUN buildDeps=" \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install exif \
-    && pecl install memcached redis \
-    && docker-php-ext-enable memcached.so redis.so bcmath.so bz2.so calendar.so exif.so gd.so iconv.so intl.so ldap.so mbstring.so mysqli.so opcache.so pdo_mysql.so soap.so sodium.so zip.so \
+    && pecl install memcached redis mcrypt \
+    && docker-php-ext-enable mcrypt.so memcached.so redis.so bcmath.so bz2.so calendar.so exif.so gd.so iconv.so intl.so ldap.so mbstring.so mysqli.so opcache.so pdo_mysql.so soap.so sodium.so zip.so \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -r /var/lib/apt/lists/*
 

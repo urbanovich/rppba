@@ -12,11 +12,11 @@ services:
         - ../:/var/www/html/:delegated
         - ./nginx/conf.d:/etc/nginx/conf.d
       links:
-        - rppba-php7.2-fpm
+        - rppba-php7.0-fpm
 
-    rppba-php7.2-fpm:
-      build: ./php-fpm/7.2.7/
-      container_name: rppba-php7.2-fpm
+    rppba-php7.0-fpm:
+      build: ./php-fpm/7.0/
+      container_name: rppba-php7.0-fpm
       restart: always
       volumes:
         - ../:/var/www/html/:delegated
